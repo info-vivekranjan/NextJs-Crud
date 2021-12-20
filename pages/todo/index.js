@@ -1,10 +1,15 @@
 import Link from "next/link";
-import { useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function Todos({ task }) {
   const [query, setQuery] = useState("");
+  const router = useRouter();
 
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
   const payload = {
     title: query,
     status: false,
@@ -15,6 +20,7 @@ export default function Todos({ task }) {
       .post(`https://json-server-mocker-sm2-196.herokuapp.com/tasks`, payload)
       .then((response) => {
         console.log(response);
+        refreshData();
       })
       .catch((error) => {
         console.log(error);
@@ -28,6 +34,7 @@ export default function Todos({ task }) {
       })
       .then((response) => {
         console.log(response);
+        refreshData();
       })
       .catch((error) => {
         console.log(error);
@@ -39,6 +46,7 @@ export default function Todos({ task }) {
       .delete(`https://json-server-mocker-sm2-196.herokuapp.com/tasks/${id}`)
       .then((response) => {
         console.log(response);
+        refreshData();
       })
       .catch((error) => {
         console.log(error);
@@ -56,12 +64,11 @@ export default function Todos({ task }) {
           border: 1px solid rgba(0, 118, 255, 0.9);
           color: rgba(0, 118, 255, 0.9);
           padding: 2px;
-          margin:10px 0px;
+          margin: 10px 0px;
         }
         .inputTodo {
-          padding:20px;
-          font-size:17px;
-
+          padding: 20px;
+          font-size: 17px;
         }
       `}</style>
       <input
