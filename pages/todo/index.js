@@ -100,7 +100,13 @@ export default function Todos({ task }) {
                   </Link>
                 </Grid>
                 <Grid item xs={3}>
-                  <h4>{item.status ? "Completed" : "Not Completed"}</h4>
+                  <h4
+                    style={{
+                      color: item.status == true ? "green" : "orange",
+                    }}
+                  >
+                    {item.status ? "Completed" : "Not Completed"}
+                  </h4>
                 </Grid>
                 <Grid item xs={1.5}>
                   <Fab
