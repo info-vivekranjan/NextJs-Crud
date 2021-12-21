@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Head from "next/head";
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -28,12 +29,9 @@ export default function Todos({ task }) {
     return axios
       .post(`https://json-server-mocker-sm2-196.herokuapp.com/tasks`, payload)
       .then((response) => {
-        console.log(response);
         refreshData();
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const handelToggle = (id, status) => {
@@ -42,28 +40,26 @@ export default function Todos({ task }) {
         status: !status,
       })
       .then((response) => {
-        console.log(response);
         refreshData();
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const handelDelete = (id) => {
     return axios
       .delete(`https://json-server-mocker-sm2-196.herokuapp.com/tasks/${id}`)
       .then((response) => {
-        console.log(response);
         refreshData();
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   return (
     <Box className={styles.globalCont}>
+      <Head>
+        <title>todos</title>
+        <meta name="description" content="todos list" />
+      </Head>
       <Box component="h1" style={{ textAlign: "center" }}>
         To Do List
       </Box>
