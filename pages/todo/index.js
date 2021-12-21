@@ -2,6 +2,15 @@ import Link from "next/link";
 import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
+import Fab from "@mui/material/Fab";
+import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
+import styles from "../../styles/Todos.module.css";
 
 export default function Todos({ task }) {
   const [query, setQuery] = useState("");
@@ -54,49 +63,69 @@ export default function Todos({ task }) {
   };
 
   return (
-    <div className="globalCont">
-      <style jsx global>{`
-        .globalCont {
-          width: 20%;
-          margin: auto;
-        }
-        .task {
-          border: 1px solid rgba(0, 118, 255, 0.9);
-          color: rgba(0, 118, 255, 0.9);
-          padding: 2px;
-          margin: 10px 0px;
-        }
-        .inputTodo {
-          padding: 20px;
-          font-size: 17px;
-        }
-      `}</style>
-      <input
-        placeholder="Enter task"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        className="inputTodo"
-      />
-      <button onClick={handelAdd}>Add</button>
+    <Box className={styles.globalCont}>
+      <Box component="h1" style={{ textAlign: "center" }}>
+        To Do List
+      </Box>
+      <Grid container>
+        <Grid item xs={10}>
+          <TextField
+            placeholder="Enter task"
+            variant="standard"
+            value={query}
+            className={styles.inputBox}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <Fab size="large" color="primary" onClick={handelAdd}>
+            <AddIcon fonSize="inherit" />
+          </Fab>
+        </Grid>
+      </Grid>
       <>
         {task.map((item) => {
           return (
-            <div key={item.id} className="task">
-              <Link href={`todo/${item.id}`}>
-                <a>
-                  <h1>{item.title}</h1>
-                </a>
-              </Link>
-              <h3>{item.status ? "Completed" : "Not Completed"}</h3>
-              <button onClick={() => handelDelete(item.id)}>Delete</button>
-              <button onClick={() => handelToggle(item.id, item.status)}>
-                Toggle
-              </button>
-            </div>
+            <Box
+              key={item.id}
+              className={styles.task}
+              style={{ borderColor: item.status == true ? "green" : "orange" }}
+            >
+              <Grid container direction="row" alignItems="center">
+                <Grid item xs={6}>
+                  <Link href={`todo/${item.id}`}>
+                    <a>
+                      <h4>{item.title}</h4>
+                    </a>
+                  </Link>
+                </Grid>
+                <Grid item xs={3}>
+                  <h4>{item.status ? "Completed" : "Not Completed"}</h4>
+                </Grid>
+                <Grid item xs={1.5}>
+                  <Fab
+                    size="small"
+                    color="primary"
+                    onClick={() => handelDelete(item.id)}
+                  >
+                    <DeleteIcon fonSize="inherit" />
+                  </Fab>
+                </Grid>
+                <Grid item xs={1.5}>
+                  <Fab
+                    size="small"
+                    color="primary"
+                    onClick={() => handelToggle(item.id, item.status)}
+                  >
+                    <EditIcon fonSize="inherit" />
+                  </Fab>
+                </Grid>
+              </Grid>
+            </Box>
           );
         })}
       </>
-    </div>
+    </Box>
   );
 }
 
