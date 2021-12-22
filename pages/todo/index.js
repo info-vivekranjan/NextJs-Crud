@@ -10,6 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import Fab from "@mui/material/Fab";
 import TextField from "@mui/material/TextField";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import styles from "../../styles/Todos.module.css";
 
@@ -54,6 +55,17 @@ export default function Todos({ task }) {
       .catch((error) => {});
   };
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#ec3266",
+      },
+      secondary: {
+        main: "#11cb5f",
+      },
+    },
+  });
+
   return (
     <Box className={styles.globalCont}>
       <Head>
@@ -65,6 +77,7 @@ export default function Todos({ task }) {
       </Box>
       <Grid container>
         <Grid item xs={10}>
+          <ThemeProvider theme={theme}>
           <TextField
             placeholder="Enter task"
             variant="standard"
@@ -72,11 +85,14 @@ export default function Todos({ task }) {
             className={styles.inputBox}
             onChange={(e) => setQuery(e.target.value)}
           />
+          </ThemeProvider>
         </Grid>
         <Grid item xs={2}>
-          <Fab size="large" color="primary" onClick={handelAdd}>
-            <AddIcon fonSize="inherit" />
-          </Fab>
+          <ThemeProvider theme={theme}>
+            <Fab size="large" color="primary" onClick={handelAdd}>
+              <AddIcon fonSize="inherit" />
+            </Fab>
+          </ThemeProvider>
         </Grid>
       </Grid>
       <>
@@ -91,7 +107,7 @@ export default function Todos({ task }) {
                 <Grid item xs={6}>
                   <Link href={`todo/${item.id}`}>
                     <a>
-                      <h4>{item.title}</h4>
+                      <h4 style={{ color: "primary" }}>{item.title}</h4>
                     </a>
                   </Link>
                 </Grid>
@@ -105,22 +121,26 @@ export default function Todos({ task }) {
                   </h4>
                 </Grid>
                 <Grid item xs={1.5}>
-                  <Fab
-                    size="small"
-                    color="primary"
-                    onClick={() => handelDelete(item.id)}
-                  >
-                    <DeleteIcon fonSize="inherit" />
-                  </Fab>
+                  <ThemeProvider theme={theme}>
+                    <Fab
+                      size="small"
+                      color="primary"
+                      onClick={() => handelDelete(item.id)}
+                    >
+                      <DeleteIcon fonSize="inherit" />
+                    </Fab>
+                  </ThemeProvider>
                 </Grid>
                 <Grid item xs={1.5}>
-                  <Fab
-                    size="small"
-                    color="primary"
-                    onClick={() => handelToggle(item.id, item.status)}
-                  >
-                    <EditIcon fonSize="inherit" />
-                  </Fab>
+                  <ThemeProvider theme={theme}>
+                    <Fab
+                      size="small"
+                      color="primary"
+                      onClick={() => handelToggle(item.id, item.status)}
+                    >
+                      <EditIcon fonSize="inherit" />
+                    </Fab>
+                  </ThemeProvider>
                 </Grid>
               </Grid>
             </Box>
