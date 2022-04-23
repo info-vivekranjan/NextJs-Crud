@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Box from "@mui/material/Box";
@@ -12,10 +12,16 @@ import Fab from "@mui/material/Fab";
 import TextField from "@mui/material/TextField";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
+import SearchIcon from "@mui/icons-material/Search";
 import styles from "../../styles/Todos.module.css";
 
 export default function Todos({ task }) {
   const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState("");
+  const [todos, setTodos] = useState(task);
+  const handleFilter = (e) => {
+    setFilter(e.target.value);
+  };
   const router = useRouter();
 
   const refreshData = () => {
@@ -25,6 +31,17 @@ export default function Todos({ task }) {
     title: query,
     status: false,
   };
+
+  async function fetchTodos() {
+    const req = await fetch(
+      filter !== ""
+        ? `https://json-server-mocker-sm2-196.herokuapp.com/tasks?title=${filter}`
+        : `https://json-server-mocker-sm2-196.herokuapp.com/tasks`
+    );
+    const data = await req.json();
+    refreshData();
+    setTodos(data);
+  }
 
   const handelAdd = () => {
     return axios
@@ -42,6 +59,7 @@ export default function Todos({ task }) {
       })
       .then((response) => {
         refreshData();
+        window.location.reload();
       })
       .catch((error) => {});
   };
@@ -65,7 +83,9 @@ export default function Todos({ task }) {
       },
     },
   });
-
+  useEffect(() => {
+    fetchTodos();
+  }, [filter]);
   return (
     <Box className={styles.globalCont}>
       <Head>
@@ -75,16 +95,30 @@ export default function Todos({ task }) {
       <Box component="h1" style={{ textAlign: "center" }}>
         To Do List
       </Box>
+      <ThemeProvider theme={theme}>
+        <Box
+          sx={{ display: "flex", alignItems: "flex-end", marginBottom: "50px" }}
+        >
+          <SearchIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
+          <TextField
+            id="input-with-sx"
+            label="Search Todo"
+            variant="standard"
+            onChange={handleFilter}
+            value={filter}
+          />
+        </Box>
+      </ThemeProvider>
       <Grid container>
         <Grid item xs={10}>
           <ThemeProvider theme={theme}>
-          <TextField
-            placeholder="Enter task"
-            variant="standard"
-            value={query}
-            className={styles.inputBox}
-            onChange={(e) => setQuery(e.target.value)}
-          />
+            <TextField
+              placeholder="Enter task"
+              variant="standard"
+              value={query}
+              className={styles.inputBox}
+              onChange={(e) => setQuery(e.target.value)}
+            />
           </ThemeProvider>
         </Grid>
         <Grid item xs={2}>
@@ -96,7 +130,7 @@ export default function Todos({ task }) {
         </Grid>
       </Grid>
       <>
-        {task.map((item) => {
+        {todos.map((item) => {
           return (
             <Box
               key={item.id}

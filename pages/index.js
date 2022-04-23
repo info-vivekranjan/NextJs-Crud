@@ -20,22 +20,10 @@ export default function Home() {
               <p>Create your daily todos and add them to your list.</p>
             </a>
           </Link>
-          <Link href="/deleted-tods">
-            <a className={styles.card}>
-              <h2>Deleted todos &rarr;</h2>
-              <p>Deleted todos that you can Recycle again.</p>
-            </a>
-          </Link>
           <Link href="/completed-todos">
             <a className={styles.card}>
               <h2>Completed todos&rarr;</h2>
               <p>You can see your completed todos</p>
-            </a>
-          </Link>
-          <Link href="/pending-todos">
-            <a className={styles.card}>
-              <h2>Pending todos&rarr;</h2>
-              <p>You can see your non completed todos</p>
             </a>
           </Link>
         </div>

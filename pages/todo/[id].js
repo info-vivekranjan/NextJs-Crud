@@ -29,7 +29,7 @@ export async function getServerSideProps({params}){
 }
 
 // export async function getStaticProps({ params }) {
-//   const req = await fetch(`http://localhost:3000/${params.id}.json`);
+//   const req = await fetch(`https://json-server-mocker-sm2-196.herokuapp.com/tasks/${params.id}`);
 //   const data = await req.json();
 
 //   return {
@@ -38,11 +38,11 @@ export async function getServerSideProps({params}){
 // }
 
 // export async function getStaticPaths() {
-//   const req = await fetch("http://localhost:3000/cars.json");
+//   const req = await fetch('https://json-server-mocker-sm2-196.herokuapp.com/tasks/');
 //   const data = await req.json();
 
 //   const paths = data.map((item) => {
-//     return { params: { id: item } };
+//     return { params: { id: JSON.stringify(item.id) } };
 //   });
 
 //   return {
