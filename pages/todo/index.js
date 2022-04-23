@@ -48,6 +48,7 @@ export default function Todos({ task }) {
       .post(`https://json-server-mocker-sm2-196.herokuapp.com/tasks`, payload)
       .then((response) => {
         refreshData();
+        fetchTodos();
       })
       .catch((error) => {});
   };
@@ -59,7 +60,7 @@ export default function Todos({ task }) {
       })
       .then((response) => {
         refreshData();
-        window.location.reload();
+        fetchTodos();
       })
       .catch((error) => {});
   };
@@ -69,6 +70,7 @@ export default function Todos({ task }) {
       .delete(`https://json-server-mocker-sm2-196.herokuapp.com/tasks/${id}`)
       .then((response) => {
         refreshData();
+        fetchTodos();
       })
       .catch((error) => {});
   };
@@ -83,9 +85,6 @@ export default function Todos({ task }) {
       },
     },
   });
-  useEffect(() => {
-    fetchTodos();
-  }, [filter]);
   return (
     <Box className={styles.globalCont}>
       <Head>
@@ -99,13 +98,16 @@ export default function Todos({ task }) {
         <Box
           sx={{ display: "flex", alignItems: "flex-end", marginBottom: "50px" }}
         >
-          <SearchIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
           <TextField
             id="input-with-sx"
             label="Search Todo"
             variant="standard"
             onChange={handleFilter}
             value={filter}
+          />
+          <SearchIcon
+            sx={{ mr: 1, my: 0.5, cursor: "pointer" }}
+            onClick={fetchTodos}
           />
         </Box>
       </ThemeProvider>
