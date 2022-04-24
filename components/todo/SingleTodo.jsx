@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Tooltip } from "@mui/material";
 import Link from "next/link";
 import Fab from "@mui/material/Fab";
 import TextField from "@mui/material/TextField";
@@ -71,31 +71,37 @@ const SingleTodo = (props) => {
         </Grid>
         <Grid item xs={1}>
           <ThemeProvider theme={theme}>
-            <Fab
-              size="small"
-              color="primary"
-              onClick={() => handelDelete(item.id)}
-            >
-              <DeleteIcon fonSize="inherit" />
-            </Fab>
+            <Tooltip title="delete" placement="top">
+              <Fab
+                size="small"
+                color="primary"
+                onClick={() => handelDelete(item.id)}
+              >
+                <DeleteIcon fonSize="inherit" />
+              </Fab>
+            </Tooltip>
           </ThemeProvider>
         </Grid>
         <Grid item xs={1}>
           <ThemeProvider theme={theme}>
-            <Fab
-              size="small"
-              color="primary"
-              onClick={() => handelToggle(item.id, item.status)}
-            >
-              <CheckIcon fonSize="inherit" />
-            </Fab>
+            <Tooltip title="toggle-status" placement="top">
+              <Fab
+                size="small"
+                color="primary"
+                onClick={() => handelToggle(item.id, item.status)}
+              >
+                <CheckIcon fonSize="inherit" />
+              </Fab>
+            </Tooltip>
           </ThemeProvider>
         </Grid>
         <Grid item xs={1}>
           <ThemeProvider theme={theme}>
-            <Fab size="small" color="primary" onClick={handleEditTodo}>
-              <EditIcon fonSize="inherit" />
-            </Fab>
+            <Tooltip title="edit" placement="top">
+              <Fab size="small" color="primary" onClick={handleEditTodo}>
+                <EditIcon fonSize="inherit" />
+              </Fab>
+            </Tooltip>
           </ThemeProvider>
         </Grid>
       </Grid>

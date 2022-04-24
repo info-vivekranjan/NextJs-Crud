@@ -20,12 +20,6 @@ export default function Home() {
               <p>Create your daily todos and add them to your list.</p>
             </a>
           </Link>
-          <Link href="/completed-todos">
-            <a className={styles.card}>
-              <h2>Completed todos&rarr;</h2>
-              <p>You can see your completed todos</p>
-            </a>
-          </Link>
         </div>
       </main>
     </div>
