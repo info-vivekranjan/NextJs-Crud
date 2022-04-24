@@ -1,12 +1,8 @@
-import Link from "next/link";
 import Head from "next/head";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import Fab from "@mui/material/Fab";
 import TextField from "@mui/material/TextField";
@@ -14,6 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import SearchIcon from "@mui/icons-material/Search";
 import styles from "../../styles/Todos.module.css";
+import SingleTodo from "../../components/todo/SingleTodo";
 
 export default function Todos({ task }) {
   const [query, setQuery] = useState("");
@@ -134,52 +131,15 @@ export default function Todos({ task }) {
       <>
         {todos.map((item) => {
           return (
-            <Box
-              key={item.id}
-              className={styles.task}
-              style={{ borderColor: item.status == true ? "green" : "orange" }}
-            >
-              <Grid container direction="row" alignItems="center">
-                <Grid item xs={6}>
-                  <Link href={`todo/${item.id}`}>
-                    <a>
-                      <h4 style={{ color: "primary" }}>{item.title}</h4>
-                    </a>
-                  </Link>
-                </Grid>
-                <Grid item xs={3}>
-                  <h4
-                    style={{
-                      color: item.status == true ? "green" : "orange",
-                    }}
-                  >
-                    {item.status ? "Completed" : "Not Completed"}
-                  </h4>
-                </Grid>
-                <Grid item xs={1.5}>
-                  <ThemeProvider theme={theme}>
-                    <Fab
-                      size="small"
-                      color="primary"
-                      onClick={() => handelDelete(item.id)}
-                    >
-                      <DeleteIcon fonSize="inherit" />
-                    </Fab>
-                  </ThemeProvider>
-                </Grid>
-                <Grid item xs={1.5}>
-                  <ThemeProvider theme={theme}>
-                    <Fab
-                      size="small"
-                      color="primary"
-                      onClick={() => handelToggle(item.id, item.status)}
-                    >
-                      <EditIcon fonSize="inherit" />
-                    </Fab>
-                  </ThemeProvider>
-                </Grid>
-              </Grid>
-            </Box>
+            <SingleTodo
+              key={item?.id}
+              item={item}
+              theme={theme}
+              handelToggle={handelToggle}
+              handelDelete={handelDelete}
+              setTodos={setTodos}
+              fetchTodos={fetchTodos}
+            />
           );
         })}
       </>
